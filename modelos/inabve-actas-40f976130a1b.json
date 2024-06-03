@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "inabve-actas",
+  "private_key_id": "40f976130a1b8c5be53e5b33e2527bddd199ead2",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDLTsvJLZbMt3g0\nyvv+6M94qAcCbE+MEJCIrqAYwgOAoutaKya0dXgbsMXweBDpNt6DY/9cQzL9FWni\nE/JxK0wkeFHyPWUryNlBskUMaVQvicMgO9dkVaBqz3kVUuo1UuxpD6gYkk6KEaKJ\nRMn+tj2OzvY2t9gEnnXg9TLFRkgZBVmxV2bMr20rE1f6dpJKx8ts4MLks9DcoTOw\npPCpimByD3yMC9EgigMhfVLNz0EPHssk0D2GDVb8guB7C/A206hB2oW0Ln8rRt6o\nACKVWV9FwnCcqH6gx4KZenf4a3DcNIeGqKyzNXQfcDOkPNZJn5q6bLxegT5URFCr\nejau0SYRAgMBAAECggEABiv6sL1DDizlp8iftMHRhoqnR9IM6iYYlSWj84x0OcP4\nXBDiSGkmf8SyhZXHgaTqRVfUSTM7CYbMY5IScpALbDIA3tcxSo561e04/mL2LMlE\nVKasZ73XtFZfCSAuvvao+ZmBk1lhq/xUEFG3xhU3Mi4jOE8FbkJ3NqCK7YUwLB45\nG8zBaW35gIhapj/hzDguJ1/QV29/28hBV1ZVO1pGptNbaRyiUbQu4JGPWIzIdsA2\npXcPhgBNQ2eEXyFJNC3ljVLTS+RwROUbBlgjqXYMDO6r7aKG1OV0wGqooaMIIumg\n/X/STCh7xknnWjRhpmRHPVHCT/BdwgR4C7ZTSjgwxwKBgQDoUt4YHnj3PoLMYGLI\nEEHIP8YcUTlAIqgnvnjYlNmn+pVoU61en9suxjULzTpmp7/C5r1+pRHIZtKmcWi7\n7vpr8YQnbr+TeMx2Y96exyyu+WtdRzYkpRfDtna4soQhPP44apgtPYUxbFuuKXmu\nVWGEc5jUhto5aJ1Rq4hrTUI+XwKBgQDgBu15YIHfkNZkiRaM5tKnrkxrnFBB8Nac\nLets+5j6uLbZCI9qzZD3Y2WgWnHaA26NAz3q8TffLGVNUe7SjlmPR/0+t7s0Wx+j\nE8rJZ+o561rCvlKznZZxHmjxvXyKHLN1X8WihsQmSqMTZQzn5yB5iYvUlHX38HLP\nXdR0xtQRjwKBgEZWoIto3nLs6Cj8nau40FHSjSaRqOW0GHk//9KC7osfIREfFIRr\nna7Br9nM3vupmjNmLMUlMQcdqnVeLLmJlyQLUVmm/DWoAy9s+T/VScAIH+tz3f6m\nRVWp7rPoyHxPvSBTlZNM5wCZsABA6mhPzWCOpxzhXzy2YbsSVhE2qPG9AoGBALl5\notTR7NSewpGb2hqv5ApFySly0hO2BMhrUDX7m+1ATsojRzHinbnkBjibiRU5sCZ5\nX6MLMPnJdNluEy8qAcYZkPaDAS/YnbnTYhobuZVYYN1I24mv1+UxiytReTGTj5SG\nxUbJEs6tDpS5HdVFyuI02ZsXiw/KeBNtGL/R+bPLAoGBAOKQ07LFvzBZ4w31/0AT\nu1TbjaEWyLz6JEe4EFyfelCWHjKO+4r+jwJAWADeQkx113wYtsyHQH/hgZIHk2rV\nfkekCPcELoFtgHWGDIGUUM6+FNcTJ5JIKbaAuuLupDrbnR9Y/WSBWuP7RPWgk2DH\nKMglDUjhDVpNsPs/JagFu+h0\n-----END PRIVATE KEY-----\n",
+  "client_email": "actas-escaneadas@inabve-actas.iam.gserviceaccount.com",
+  "client_id": "113743532238928218439",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/actas-escaneadas%40inabve-actas.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

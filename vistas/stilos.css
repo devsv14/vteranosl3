@@ -1,0 +1,221 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@700&family=Roboto+Mono:wght@700&display=swap");
+
+:root {
+  --background-color: #f6f6f3;
+  --form-background-color: #f7f7f7;
+  --tips-background-color: #eeeeee;
+  --border-color: #dedede;
+  --discount-color: #60c1b6;
+  --button-color: #ed7861;
+  --text-color: #333;
+}
+
+body {
+  background-color: var(--background-color);
+  font-family: "Inter", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  color: var(--text-color);
+}
+
+.tip__calc {
+  background: #ffffff;
+  box-shadow: 0px 0px 48px rgba(148, 146, 120, 0.23);
+  border-radius: 22px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding-top: 1rem;
+  max-width: 50rem;
+}
+
+.tip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1.5rem 0;
+}
+
+.tip + .tip {
+  border-top: 1px solid var(--border-color);
+}
+
+.calc__form {
+  background-color: var(--form-background-color);
+  display: flex;
+  flex-direction: column;
+  border-radius: 1.5rem;
+}
+
+.calc__form--label {
+  font-family: "Roboto Mono", monospace;
+  font-size: 1rem;
+  line-height: 1.25;
+  padding: 1rem 2rem;
+}
+
+.calc__form--value {
+  font-size: 5.5rem;
+}
+
+.calc__form--value sup {
+  font-size: 3.25rem;
+}
+
+.calc__form--input {
+  display: flex;
+  flex-direction: column;
+}
+
+.calc__form--input .input {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 65px 45px 45px;
+}
+
+.calc__form--input .input:not(:last-child) {
+  border-right: 1px solid var(--border-color);
+}
+
+input[type="number"] {
+  border: none;
+  border-bottom: 3.2px dotted var(--border-color);
+  text-align: center;
+  background-color: transparent;
+  font-size: 4rem;
+  line-height: 1;
+  width: 100%;
+}
+
+[name="total"] {
+  background: url("https://codepen.davidroessli.com/img/dollar.svg") left 15px no-repeat;
+  padding-left: 40px;
+}
+
+[name="nb-people"] {
+  background: url("https://codepen.davidroessli.com/img/people.svg") left 20px no-repeat;
+  padding-left: 40px;
+}
+
+.calc__form--radio {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--tips-background-color);
+  padding: 1.5rem 2rem;
+
+  font-family: "Roboto Mono", monospace;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 2rem;
+  color: var(--discount-color);
+
+  border: 1px solid var(--border-color);
+  border-width: 1px 0;
+}
+
+.radio {
+  display: grid;
+}
+
+.radio input {
+  grid-area: 1 / 1 / 4 / 4;
+}
+
+.radio label {
+  grid-area: 2 / 2 / 2 / 2;
+  z-index: 2;
+}
+
+input[type="radio"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 150px;
+  height: 75px;
+  border-radius: 18px;
+  transform: translateY(-0.075em);
+
+  display: grid;
+  place-content: center;
+}
+
+input[type="radio"]::before {
+  content: "";
+  width: 150px;
+  height: 75px;
+  border-radius: 18px;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+}
+
+input[type="radio"]:checked + label {
+  color: white;
+}
+
+input[type="radio"]:checked::before {
+  transform: scale(1);
+  background-color: var(--discount-color);
+}
+
+input[type="radio"]:focus {
+  outline: max(2px, 0.15em) solid currentColor;
+  outline-offset: max(2px, 0.15em);
+}
+
+.calc__form--submit {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 2rem;
+}
+
+[name="submit"] {
+  font-family: "Roboto Mono", monospace;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 2rem;
+  text-align: center;
+  letter-spacing: 0.15em;
+  color: #ffffff;
+
+  background-color: var(--button-color);
+  padding: 18px 75px;
+  box-shadow: 0px 1.0717px 8.57359px rgba(0, 0, 0, 0.05);
+  border-radius: 18px;
+}
+
+[name="submit"]:focus,
+[name="submit"]:hover {
+  background-color: var(--discount-color);
+}
+
+@media screen and (min-width: 600px) {
+  .tip,
+  .calc__form--input {
+    flex-direction: row;
+  }
+  .calc__form--input .input {
+    width: 60%;
+  }
+  .calc__form--input .input + .input {
+    width: 40%;
+  }
+}

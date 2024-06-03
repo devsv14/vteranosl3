@@ -1,0 +1,387 @@
+
+<?php ob_start();
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
+require_once '../dompdf/autoload.inc.php';
+require_once ('../config/conexion.php');
+require_once ('../modelos/Reporteria.php');
+require_once ('../modelos/Ordenes.php');
+date_default_timezone_set('America/El_Salvador'); 
+$hoy = date("d-m-Y");
+$dateTime= date("d-m-Y H:i:s");
+$hora = date("H:i");
+$reportes = new Reporteria();
+$orden = new Ordenes();
+
+$data = json_decode($_POST['actData']);
+
+$paciente = ucwords($data->paciente);
+$tipo_receptor = $data->tipo_receptor;
+$receptor = strtoupper($data->nombre_receptor);
+$dui_receptor = $data->dui_receptor;
+$codigo_orden = $data->codigo;
+$id_acta = $data->id_acta;
+$correlativo_suc= $data->correlativo_suc; 
+$dui_acta= $data->dui_acta;
+$data_citas= $reportes->getDataCita($dui_acta);
+$data_orden = $reportes->getDataOrden($dui_acta);
+$data_acta_actual = $reportes->getDataActa($dui_acta);
+$sucursal = $data_acta_actual[0]["sucursal"];
+$data_sucursal = $reportes->getDataSucursal($sucursal);
+
+if(count($data_citas)>0){
+  $data_acta = $data_citas;
+  $t_paciente = $data_acta[0]["tipo_paciente"];
+  
+  if($t_paciente==""){
+    $t_paciente = strtoupper($data_acta[0]["sector"]);
+    $ing_man = 1;
+  }else{
+    $t_paciente = strtoupper($t_paciente);
+  }
+  $sector = $data_acta[0]["sector"];
+}else{
+  $data_acta = $data_orden;
+  $sector = $data_acta[0]["institucion"];
+  $t_paciente = strtoupper($sector);
+}
+
+$sector_paciente = $sector=="FMLN" ? "EX-COMBATIENTE" : "VETERANO";
+
+//GET DETALLE PRODUCTOS
+$id_aro = $data_orden[0]["id_aro"];
+$data_aro = $reportes->getDataAro($id_aro,$data_orden[0]['codigo']);
+?>
+
+<!DOCTYPE html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=, initial-scale=1.0">
+  <title>.::Actas - Veteranos::.</title>
+   <link rel="stylesheet" href="../estilos/styles.css">
+  <style>
+
+  body{
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+  }
+
+  html{
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right:10px; 
+    margin-bottom: 0px;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+ 
+.input-report{
+    font-family: Helvetica, Arial, sans-serif;
+    border: none;
+    border-bottom: 2.2px dotted #C8C8C8;
+    text-align: left;
+    background-color: transparent;
+    font-size: 14px;
+    width: 100%;
+    padding: 10px
+  } 
+
+  #watermark {
+        position: fixed;
+        top: 15%;
+        margin-left: 5.2%;
+        width: 100%;
+        opacity: .20;    
+        z-index: -1000;
+  }
+
+footer {
+position: fixed;
+bottom: -60px;
+left: 0px;
+right: 0px;
+height: 50px;
+
+/** Extra personal styles **/
+background-color: #03a9f4;
+color: black;
+text-align: center;
+line-height: 35px;
+}
+  </style>
+
+</head>
+
+<body>
+
+<html>
+<div id="watermark">
+<img src="../dist/img/Escudo_Gobierno.jpg" width="700" height="700"/>
+</div>
+<?php
+for($i=0; $i<3;$i++){?>
+
+<table style="width: 100%;margin-top:2px" width="100%">
+<tr>
+<td width="25%" style="width:25%;margin:0px">
+  <img src='../dist/img/newlogoinabve.jpeg' width="230" height="80"/>
+</td>
+  
+<td width="50%" style="width:50%;margin:0px">
+<table style="width:100%">
+  <br>
+  <tr>
+    <td  style="text-align: center;margin-top: 0px;font-size:14px;font-family: Helvetica, Arial, sans-serif;"><b>DEPARTAMENTO DE PROGRAMAS DE SALUD E INSUMOS MEDICOS</b></td>
+  </tr>
+
+
+  <tr>
+    <td  style="text-align:center;margin-top:0px;font-size:18px;font-family: Helvetica, Arial, sans-serif;text-transform: uppercase"><u>ACTA DE ENTREGA</u></td>
+  </tr>
+</table>
+</td>
+
+<td width="25%" style="width:25%;margin:0px;float: left;">
+  <img src='../dist/img/logo_avplus.jpg' width="150" height="80" style="margin-top:5px;float: left;"><br>
+ 
+</td>
+</tr>
+</table>
+<span style='float: right;margin-top: 0px !important;font-size:18px;margin-right:65px'><b>000<?php echo $id_acta?></b></span>
+<!--fin tabla--> <br><br> 
+
+<div style="font-family: Helvetica, Arial, sans-serif;font-size:14px;padding:2px;text-align: justify"> 
+<?php 
+$depto_acta = strtoupper($data_sucursal[0]["departamento"]);
+$sucursal = strtoupper($data_sucursal[0]["nombre"]);
+$suc = explode('-',$sucursal);
+$sucursal = $suc[0];
+$id_cita = $data_orden[0]["id_cita"];
+
+if($id_cita>0){
+  $tipo_paciente_citas = $data_citas[0]['tipo_paciente'];
+  $vet_titular = $data_citas[0]['vet_titular'];
+}else{
+      $tipo_paciente_citas = '';
+      $vet_titular = '';
+}
+
+if($data_acta_actual[0]["sucursal"]=="Apopa"){
+   $hora = "_________";
+   $hoy = "_______________";
+}
+if($tipo_receptor=="tercero"){
+  if($t_paciente=='VETERANO' OR $t_paciente=='EX-COMBATIENTE'){
+    $sector_desc = " del sector $t_paciente(Segun SIVET Web)";
+  }else{
+    $sector_desc = ", $t_paciente(Segun SIVET Web)";
+  }
+  $msj_main = "
+    <b> $depto_acta, $sucursal </b> a las $hora horas del dia $hoy se hace constar la entrega formal a :<br> <b>$receptor</b> con DUI: $dui_receptor los lentes de <b><u>$paciente</b></u> con DUI: $dui_acta$sector_desc<br>
+  ";
+
+}else{
+  $msj_main = "
+  <b> $depto_acta, $sucursal </b> a las $hora horas del dia $hoy se hace constar la entrega formal a :<br> <b style='text-transform:uppercase'>$paciente</b> con DUI: $dui_acta del sector $t_paciente(Segun SIVET Web).<br>
+  
+  ";
+
+}
+
+
+if((($id_cita != 0 and $tipo_paciente_citas != '') and (($tipo_paciente_citas=='Designado' or $tipo_paciente_citas=='Conyuge') and $vet_titular=="")) or ($id_cita==0 and $data_orden[0]['institucion']=='CONYUGE')){
+
+    $msj_beneficiario = "
+    Recibe el beneficio del _______________________, con nombre _____________________________________________ y DUI: <br>_________________________________________ (Segun SIVET Web).
+    ";
+
+ 
+ 
+}elseif($id_cita !=0 and $tipo_paciente_citas !="" and ($tipo_paciente_citas=='Designado' or    $tipo_paciente_citas=='Conyuge') and $vet_titular !=''){
+
+  $sector_cita = $data_citas[0]['sector'];
+  $dui_titular_c = $data_citas[0]['dui_titular'];
+  $cita_sector = $sector_cita == "FMLN" ? "EX-COMBATIENTE" : "VETERANO";
+  $msj_beneficiario = "
+  Recibe el beneficio del $cita_sector, con nombre $vet_titular y DUI: $dui_titular_c (Segun SIVET Web).
+  ";
+
+}else{
+  $msj_beneficiario = "";
+  $msj_h_control ='';
+}
+echo $msj_main."<br>";
+echo $msj_beneficiario."<br><br>";
+if($tipo_receptor=='tercero'){
+  $recibe = 'Tercero';
+}elseif($tipo_receptor !='tercero' and ($t_paciente=='DESIGNADOS' OR $t_paciente=="DESIGNADO" OR $t_paciente=="CONYUGE")){
+  $recibe = 'Beneficiario';
+}elseif($tipo_receptor !='tercero' and ($t_paciente !='DESIGNADOS' OR $t_paciente !="DESIGNADO" OR $t_paciente !="CONYUGE")){
+  $recibe = 'Titular';
+}
+?>
+</div>
+<span style="font-size:14px">Dicho suministro se entrega de acuerdo con el siguiente detalle: 
+</span><br>
+
+<table width="100%" style="width: 100%;margin-top: 30px !important;"  class="tabla_reporte_actas">
+<tr style="background:black;color:white">
+   <th colspan="25" style="width:25%">CANTIDAD</th>
+   <th colspan="25" style="width:25%">UNIDAD DE MEDIDA</th>
+   <th colspan="50" style="width:50%">DESCRIPCION</th>   
+
+ </tr>
+ <tr style="background: none ">
+   <td colspan="25" style="width:25%">1</td>
+   <td colspan="25" style="width:25%">UNIDAD</td>
+   <td colspan="50" style="width:50%">
+   <ul style="text-align:left">
+  <li><?php echo $data_aro;?></li>
+  <li>LENTE  <?php echo $data_orden[0]['tipo_lente']?> CON TRATAMIENTO <?php echo $data_orden[0]['color']?></li>
+  <li>ESTUCHE</li>
+  <li>FRANELA</li>
+  <li>SPRAY DE LIMPIEZA</li>
+</ul></td>   
+ </tr>
+</table>
+<br><br><br>
+<div style="font-size:14px">
+<span style="color:black"><b>NOTA:</b></span> En caso de rectificación o estar insatisfecho con su servicio óptico cuenta con un <b><u>un período de 15 dias </u></b> para llamar a la sucursal donde fue atendido al <b> <?php $tel_suc = $data_sucursal[0]['optica'];
+$tel = explode('-',$tel_suc); echo $tel[1];
+?> </b>para evaluar su caso.
+<br><br>
+<span style="font-family: Helvetica, Arial, sans-serif;font-size: 14 px;padding: 5px">
+    Y no habiendo mas que hacer constar en la presente acta firmamos: 
+</span>
+<br><br>
+</div>
+<table width="100%" style="width: 100%;margin-top: 20px i !important " class="tabla_reporte_actas">
+  <tr style=''>
+    <th colspan="50" style="width: 50%;">ENTREGA</td><br>
+    <th colspan="50" style="width: 50%;"> RECIBE<?php echo "(".$recibe.")"?></td>
+  
+  </tr>
+  <tr style="margin-top:40px;heigth:150px !important">
+    <td colspan="50" style="width: 50%">
+<br>
+<br>
+<br><br><br><br><br><br><br><br><br>
+  </td>
+    <td colspan="50" style="width: 50%;max-heigth:150px">
+    <input type="text" class="input-report" value="Nombre: " style='margin-top:10px'><br>
+    <input type="text" class="input-report" value="Firma: "><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  </tr>
+
+</table>
+
+<span style='float: right;margin-top: 100px;color:gray'><?php echo 'No. suc.: '.$correlativo_suc."   ID orden:".$data_orden[0]['id_orden'];?></span>
+<?php
+if($i==0){
+  echo "Acta: INABVE";
+}elseif($i==1){
+  echo "Acta: ÓPTICA";
+}elseif($i==2){
+  echo "Acta: BENEFICIARIO";
+}
+?>
+<div style="page-break-after:always;"></div>
+<?php }?>
+<table style="width: 100%;margin-top:2px" width="100%">
+<tr>
+<td width="25%" style="width:25%;margin:0px">
+  <img src='../dist/img/newlogoinabve.jpeg' width="230" height="80"/>
+</td>
+  
+<td width="50%" style="width:50%;margin:0px">
+<table style="width:100%">
+  <br>
+  <tr>
+    <td  style="text-align: center;margin-top: 0px;font-size:14px;font-family: Helvetica, Arial, sans-serif;"><b>INSTITUTO ADMINISTRADOR DE LOS BENEFICIOS DE VETERANOS Y EXCOMBATIENTES <br>OPTICAS ASOCIADAS</b></td>
+  </tr>
+
+
+  <tr>
+    <td  style="text-align:center;margin-top:0px;font-size:18px;font-family: Helvetica, Arial, sans-serif;text-transform: uppercase"><u>HOJA DE IDENTIFICACIÓN EN OPTOMETRÍA</u></td>
+  </tr>
+</table>
+</td>
+
+<td width="25%" style="width:25%;margin:0px;float: left;">
+  <img src='../dist/img/logo_avplus.jpg' width="150" height="80" style="margin-top:5px;float: left;"><br>
+ 
+</td>
+</tr>
+</table>
+<?php
+$hoy_en = date("Y-m-d");
+
+$numero_hoja = $reportes->getNumeroOrden($hoy_en);
+?><br><br>
+<h5 style="text-align:center;font-size:17px">NUMERO DE ATENCIÓN DEL DIA:  <span style='font-size:24px;text-align:center'><?php echo $numero_hoja;?></span></h5> <br><br><br>
+<section style='text-transform: uppercase;margin-left:3px;border: 1px solid black;padding:10px'>
+<span><b>FECHA:</b> <?php echo $dateTime;?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span><b>SUCURSAL DE ÓPTICA: </b><?php echo $sucursal;?></span> <br><br><br>
+
+<b>NOMBRE COMPLETO: </b><?php echo $paciente?>
+<br><br><br>
+
+<b>TIPO PACIENTE: </b><?php echo $t_paciente;?>.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>DOCUMENTO DE IDENTIDAD:</b> <?php echo $data_orden[0]["dui"]?>.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br><br><br>
+
+<b>EDAD: </b><?php echo $data_orden[0]["edad"];?> años.&nbsp;&nbsp;&nbsp;&nbsp;<b>OCUPACIÓN: </b><?php echo $data_orden[0]["ocupacion"];?>&nbsp;&nbsp;&nbsp;&nbsp;<b>GENERO: </b><?php echo $data_orden[0]["genero"];?><br><br><br>
+
+<b>DEPARTAMENTO: </b><?php echo $data_orden[0]["depto"];?>&nbsp;&nbsp;&nbsp;&nbsp;<b>MUNICIPIO: </b><?php echo $data_orden[0]["municipio"];?>&nbsp;&nbsp;&nbsp;&nbsp;<b>TELEFONO: </b><?php echo $data_orden[0]["telefono"];?>
+</section>
+<br><br><br>
+<section style='margin-left: 10px'>
+<?php
+
+if((($id_cita != 0 and $tipo_paciente_citas != '') and (($tipo_paciente_citas=='Designado' or $tipo_paciente_citas=='Conyuge') and $vet_titular=="")) or ($id_cita==0 and $data_orden[0]['institucion']=='CONYUGE')){
+
+echo ' NOMBRE DEL TITULAR:____________________________________________________________________<br><br><br>
+<br><br><br>
+  DUI DEL TITULAR:_______________________________________ SECTOR:_____________________________<br><br><br>';
+
+
+
+}elseif($id_cita !=0 and $tipo_paciente_citas !="" and ($tipo_paciente_citas=='Designado' or    $tipo_paciente_citas=='Conyuge') and $vet_titular !=''){
+$sector_cita = $data_citas[0]['sector'];
+$dui_titular_c = $data_citas[0]['dui_titular'];
+$cita_sector = $sector_cita == "FMLN" ? "EX-COMBATIENTE" : "VETERANO";
+ echo "<b>NOMBRE DEL TITULAR:</b> $vet_titular<br><br><br>
+ 
+  <b>DUI DEL TITULAR:</b> $dui_titular_c           <b style='margin-left:25px'>SECTOR:</b> $cita_sector <br><br><br>";
+
+}else{
+$msj_beneficiario = "";
+
+}
+
+?>
+</section>
+<table style='border: 1px solid black; width:50%;margin: 0 auto;' width='50%'>
+<tr><td style='visibilty:hidden;color:white'>.</td></tr><tr><td style='visibilty:hidden;color:white'>.</td></tr><tr><td style='visibilty:hidden;color:white'>.</td></tr><tr><td style='visibilty:hidden;color:white'>.</td></tr>
+  <tr style='height: 100px'>
+    
+   <td colspan=100 style='text-transform:uppercase;heigth:200px'></td>
+  </tr>
+  <tr>
+  <td colspan=100 style='text-align:center; width:100%'>FIRMA O HUELLA DEL USUARIO</td>
+  </tr>
+</table>
+</body>
+</html>
+
+<?php
+$salida_html = ob_get_contents();
+ob_end_clean();
+$dompdf = new Dompdf();
+$dompdf->loadHtml($salida_html);
+// (Optional) Setup the paper size and orientation
+$dompdf->setPaper('letter', 'portrait');
+
+// Render the HTML as PDF
+$dompdf->render();
+
+// Output the generated PDF to Browser
+$dompdf->stream('document', array('Attachment'=>'0'));
+?>
