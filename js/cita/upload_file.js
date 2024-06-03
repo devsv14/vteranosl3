@@ -125,7 +125,7 @@ async function drop_Upload(drop_files) {
                                 </li>`;
                 uploadedArea.classList.add("onprogress");
                 progressArea.innerHTML = progressHTML;
-                
+
                 if (loaded === total) {
                     progressArea.innerHTML = "";
                     let uploadedHTML = `<li class="row">
