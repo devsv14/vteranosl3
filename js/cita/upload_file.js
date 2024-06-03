@@ -1,3 +1,15 @@
+const Toast = Swal.mixin({
+    toast: true,
+    position: "center",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    }
+});
+
 var data_citados = [];
 
 const form = document.querySelector("form");
@@ -8,7 +20,7 @@ fileInput = document.querySelector(".file-input"),
 //const allowed_EXT = /(\.jpg|\.jpeg|\.bmp|\.gif|\.png|\.zip|\.rar|\.tar|\.txt|\.mp4|\.mp3|\.7z|\.doc|\.docx|\.xls)$/i;
 const allowed_EXT = /(\.csv)$/i;
 
-const files_name_upload = [];
+var files_name_upload = [];
 
 dragForm = document.getElementById('drag-form');
 dragText = document.getElementById('drag_text');
@@ -18,7 +30,6 @@ dragZone = document.getElementById('drag-area');
 dragWarper = document.getElementById('drag-warper');
 
 function showToast(s, c) {
-    console.log('test');
     var x = document.getElementById("snackbar");
     var text = document.createTextNode(s);
     x.style.backgroundColor = c;
@@ -40,16 +51,27 @@ fileInput.onchange = ({ target }) => {
     if (file.length === 1) {
         // let fileName = file[0].name;
         if (!allowed_EXT.exec(file[0].name)) {
-            showToast('Por razones de seguridad, esta extensión está prohibida.', 'red');
+            Toast.fire({
+                icon: "warning",
+                title: "Por razones de seguridad, esta extensión está prohibida."
+              });
         }
         else {
-            if (!files_name_upload.includes(file[0].name)) {
+            if (!files_name_upload.includes(file[0].name) && files_name_upload.length === 0) {
                 files_name_upload.push(file[0].name);
                 uploadFile(file[0].name);
+            }else{
+                Toast.fire({
+                    icon: "warning",
+                    title: "La carga de múltiples archivos no está permitida."
+                  });
             }
         }
     } else {
-        showToast('Por razones de seguridad, la carga de múltiples archivos está prohibida.', 'blue');
+        Toast.fire({
+            icon: "warning",
+            title: "Por razones de seguridad, la carga de múltiples archivos está prohibida."
+          });
     }
 }
 
@@ -83,16 +105,26 @@ dropArea.addEventListener("drop", (event) => {
     
     if (all_drop_files.length === 1) {
         if (!allowed_EXT.exec(all_drop_files[0].name)) {
-            showToast('Por razones de seguridad, esta extensión está prohibida.', 'red');
-        }
-        else {
-            if (!files_name_upload.includes(all_drop_files[0].name)) {
+            Toast.fire({
+                icon: "warning",
+                title: "Por razones de seguridad, esta extensión está prohibida."
+              });
+        }else {
+            if (!files_name_upload.includes(all_drop_files[0].name) && files_name_upload.length === 0) {
                 files_name_upload.push(all_drop_files[0].name);
                 drop_Upload(all_drop_files[0]);
+            }else{
+                Toast.fire({
+                    icon: "warning",
+                    title: "La carga de múltiples archivos no está permitida."
+                  });
             }
         }
     } else {
-        showToast('Por razones de seguridad, la carga de múltiples archivos está prohibida.', 'blue');
+        Toast.fire({
+            icon: "warning",
+            title: "Por razones de seguridad, la carga de múltiples archivos está prohibida."
+          });
     }
     dragText.textContent = "Haz clic o arrastra y suelta el archivo para subirlo.";
     dragCloud.style.color = "#6990F2";
@@ -115,7 +147,7 @@ async function drop_Upload(drop_files) {
                 let fileSize;
                 (fileTotal < 1024) ? fileSize = fileTotal + " KB" : fileSize = (loaded / (1024 * 1024)).toFixed(2) + " MB";
                 let progressHTML = `<li class="row">
-                                    <i class="fas fa-file-alt"></i>
+                                    <i class="fas fa-file-alt" style="font-size: 25px;"></i>
                                     <div class="content">
                                         <div class="details">
                                             <span class="name">${drop_files.name} • subiendo...</span>
@@ -133,7 +165,7 @@ async function drop_Upload(drop_files) {
                     progressArea.innerHTML = "";
                     let uploadedHTML = `<li class="row">
                                         <div class="content upload col-md-8">
-                                            <i class="fas fa-file-alt"></i>
+                                            <i class="fas fa-file-alt" style="font-size: 25px;"></i>
                                             <div class="details">
                                                 <span class="name">${drop_files.name} • cargado</span>
                                                 <span class="size">${fileSize}</span>
@@ -152,10 +184,16 @@ async function drop_Upload(drop_files) {
                 'Content-Type': 'multipart/form-data'
             }
         });
-
-        console.log(response);
-        data_citados = response.data;
-        showItemsCSV();
+        if(response.data.status === "success"){
+            data_citados = response.data.result;
+            showItemsCSV();
+        }else{
+            Swal.fire({
+                title: "Error",
+                text: "Ha ocurrido un error al importar los datos.",
+                icon: "error"
+            });
+        }
     } catch (error) {
         console.error('Error uploading file:', error);
     }
@@ -190,14 +228,17 @@ function uploadFile(name) {
             if (loaded === total) {
                 progressArea.innerHTML = "";
                 let uploadedHTML = `<li class="row">
-                                <div class="content upload">
-                                  <i class="fas fa-file-alt"></i>
+                                <div class="content upload col-md-8">
+                                  <i class="fas fa-file-alt" style="font-size: 25px;"></i>
                                   <div class="details">
                                     <span class="name">${name} • cargado</span>
                                     <span class="size">${fileSize}</span>
                                   </div>
                                 </div>
-                                <i class="fas fa-check"></i>
+                                <div class="col-md-4 d-flex justify-content-end">
+                                    <i class="fas fa-check mr-3" style="cursor:pointer" onclick="procesarCSV(this)"></i>
+                                    <i class="fas fa-times" style="cursor:pointer" onclick="removeItemFile(this)"></i>
+                                </div>
                               </li>`;
                 uploadedArea.classList.remove("onprogress");
                 uploadedArea.insertAdjacentHTML("afterbegin", uploadedHTML);
@@ -208,9 +249,16 @@ function uploadFile(name) {
         }
     })
         .then(response => {
-            // Handle the response from the server if needed
-            data_citados = response.data;
-            showItemsCSV();
+            if(response.data.status === "success"){
+                data_citados = response.data.result;
+                showItemsCSV();
+            }else{
+                Swal.fire({
+                    title: "Error",
+                    text: "Ha ocurrido un error al importar los datos.",
+                    icon: "error"
+                });
+            }
         })
         .catch(error => {
             // Handle error if needed
@@ -258,35 +306,57 @@ function removeItemFile(element){
     form.reset();
     uploadedArea.innerHTML = '';
     showItemsCSV();
+    //vacias array files
+    files_name_upload = [];
 }
 
 function procesarCSV(){
     if(data_citados.length > 0){
-        let citados_form = new FormData();
-        citados_form.append('data', JSON.stringify(data_citados));
-        axios.post('../ajax/upload_csv.php?op=procesar_csv', citados_form)
-        .then((result) => {
-            if(result.data.status === "success"){
-                data_citados = [];
-                uploadedArea.innerHTML = '';
-                showItemsCSV();
-                Swal.fire({
-                    title: "Éxito",
-                    text: "Los datos han sido importados exitosamente.",
-                    icon: "success"
-                  });
-            }else{
-                Swal.fire({
-                    title: "Error",
-                    text: "Ha ocurrido un error al importar los datos.",
-                    icon: "error"
-                  });
+        Swal.fire({
+            title: "¿Estás seguro de importar estos datos?",
+            text: "Esta acción permitirá agregar datos a citados.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, importar!",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let citados_form = new FormData();
+                citados_form.append('data', JSON.stringify(data_citados));
+                axios.post('../ajax/upload_csv.php?op=procesar_csv', citados_form)
+                .then((result) => {
+                    if(result.data.status === "success"){
+                        //vacias array files
+                        files_name_upload = [];
+                        data_citados = [];
+                        
+                        uploadedArea.innerHTML = '';
+                        showItemsCSV();
+                        $("#dt_citados_csv").DataTable().ajax.reload(null,false);
+                        Swal.fire({
+                            title: "Éxito",
+                            text: "Los datos han sido importados exitosamente.",
+                            icon: "success"
+                        });
+                    }else{
+                        Swal.fire({
+                            title: "Error",
+                            text: "Ha ocurrido un error al importar los datos.",
+                            icon: "error"
+                        });
+                    }
+                }).catch((err) => {
+                    console.log(err);
+                });
             }
-            console.log(result);
-        }).catch((err) => {
-            console.log(err);
         });
     }else{
-        console.log('Error sin datos');
+        Swal.fire({
+            title: "Error",
+            text: "Sin datos.",
+            icon: "error"
+        });
     }
 }

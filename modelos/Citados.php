@@ -5,14 +5,14 @@ require_once("../config/conexion.php");
 class Citados extends Conectar
 {
 
-    public function listar_pacientes_citados($user_sucursal)
+    public function listar_pacientes_citados($user_sucursal = '')
     {
         $conectar = parent::conexion();
         parent::set_names();
 
-        $sql = "SELECT * FROM `citas` WHERE citas.sucursal=:sucursal AND citas.estado != 1";
+        $sql = "SELECT * FROM `citas`";
         $sql = $conectar->prepare($sql);
-        $sql->bindParam(':sucursal', $user_sucursal);
+        //$sql->bindParam(':sucursal', $user_sucursal);
         $sql->execute();
         return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
     }

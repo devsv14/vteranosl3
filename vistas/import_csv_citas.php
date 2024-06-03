@@ -50,18 +50,19 @@ if (isset($_SESSION["user"])) {
                                     <button id="btnImportCSV" class="btn btn-outline-success btn-xs" title="Importar csv de citados"><i class="fas fa-file-csv"></i> Importar</button>
                                 </div>
                                 <!-- /.card-header -->
-                                <div class="card-body" style="margin: 0px !important; padding: 2px">
+                                <div class="card-body mb-5" style="margin: 0px !important; padding: 2px">
 
-                                    <table width="100%" class="table-bordered table-hover" id="aros_creados" data-order='[[ 0, "desc" ]]'>
+                                    <table width="100%" class="table-bordered table-hover" id="dt_citados_csv" data-order='[[ 0, "desc" ]]'>
                                         <thead style="color:white;font-family: Helvetica, Arial, sans-serif;font-size: 13px;text-align: center" class='bg-info'>
                                             <tr>
                                                 <th style="width:5%">#</th>
+                                                <th style="width:5%">Id ref.</th>
                                                 <th style="width:30%">Paciente</th>
                                                 <th style="width:10%">Dui</th>
                                                 <th style="width:10%">Telefono</th>
                                                 <th style="width:10%">Tipo paciente</th>
                                                 <th style="width:10%">Sector</th>
-                                                <th style="width:20%">Sucursal</th>
+                                                <th style="width:15%">Sucursal</th>
                                                 <th style="width:5%">Acciones</th>
                                             </tr>
                                         </thead>

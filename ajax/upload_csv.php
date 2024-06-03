@@ -61,7 +61,10 @@ switch ($_GET["op"]) {
                     $i ++;
                 }
     
-                echo json_encode($array_data_file);
+                echo json_encode([
+                    'status' => 'success',
+                    'result' => $array_data_file
+                ]);
             }else{
                 echo json_encode([
                     'error' => 'El archivo está vacío.'

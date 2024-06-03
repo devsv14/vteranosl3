@@ -11,14 +11,19 @@ switch ($_GET["op"]){
 
     case 'listar_pacientes_citados':
 
-        $citados = $citas->listar_pacientes_citados($_POST['user_sucursal']);
+        $citados = $citas->listar_pacientes_citados();
         $data = Array();
         foreach($citados as $c){
             $sub_array = array();
-            $sub_array[] = $c["dui"]; 
+            $sub_array[] = $c["id_cita"];
+            $sub_array[] = $c["id_ref"];
             $sub_array[] = $c["paciente"]; 
+            $sub_array[] = $c["dui"];
+            $sub_array[] = $c["telefono"];
+            $sub_array[] = $c["tipo_paciente"];
             $sub_array[] = $c["sector"];
-            $sub_array[] = "<i class='fas fa-plus-circle fa-2x' onClick='getCitados(".$c["id_cita"].")'></i>"; 
+            $sub_array[] = $c["sucursal"];
+            $sub_array[] = "<i class='fas fa-user-check fa-2x' onClick='getCitados(".$c["id_cita"].")'></i>"; 
             $data[] = $sub_array;
         }
 
