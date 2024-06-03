@@ -32,23 +32,18 @@
       <div class="modal-body">
         <!--START MODAL BODY-->
 
-        <div class="row mb-2" id="radio_button_orden">
-          <div class="custom-control custom-switch">
-            <input type="checkbox" onchange="AllowManualInput()" class="custom-control-input" name="customSwitch1" id="customSwitch1">
-            <label class="custom-control-label" for="customSwitch1">Ingreso manual</label>
-          </div>
-        </div>
-        <div class="row mb-2" id="btn_edit_especial">
-          <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-            <input onchange="AllowEdicionSpecial()" type="checkbox" class="custom-control-input" id="ediccion_orden_citas">
-            <label class="custom-control-label" for="ediccion_orden_citas">Edición avanzada</label>
-          </div>
-        </div>
+        <div class="row mb-2" id="radio_button_orden">         
+       
 
         <div class="shadow-sm" id="cita_content">
 
           <div id="show_form_manual">
             <div class="form-row">
+
+            <div class="content-input">
+                                      <input class="custom-input vali-input cls-input" rows="1" id="oidip" name="oidip" type="search" style="border: 1px solid #dae5ff;color: green" placeholder=" ">
+                                      <label class="input-label">DIP OI *</label>
+                                  </div>
               <div class="form-group col-md-3">
                 <label class="form-check-label">Paciente*</label>
                 <input type="text" id="paciente" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" class="form-control clear_orden_i oblig_form_manual" required>

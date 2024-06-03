@@ -8,7 +8,7 @@ class Conectar {
  	protected $dbh;
  	protected function conexion(){
  	try {
-	    $conectar = $this->dbh = new PDO("mysql:local=localhost;dbname=inabvel3","root","");
+	    $conectar = $this->dbh = new PDO("mysql:local=localhost;dbname=veteranos3","oscargz","oscar1411");
 	    //$conectar = $this->dbh = new PDO("mysql:local=localhost;dbname=u579024306_inabe3","u579024306_avplus24","AndVas2024_inabve");
 		return $conectar;
     }catch (Exception $e) {
@@ -26,8 +26,8 @@ class Conectar {
 	}
 	protected function conexion_lenti(){
 		try {
-		   //$conectarLenti = $this->dbh = new PDO("mysql:local=localhost;dbname=lenti","root","");
-		   $conectarLenti = $this->dbh = new PDO("mysql:local=localhost;dbname=u579024306_lenti","u579024306_rlenti","And20vas08");
+		   $conectarLenti = $this->dbh = new PDO("mysql:local=localhost;dbname=lenti","root","");
+		   //$conectarLenti = $this->dbh = new PDO("mysql:local=localhost;dbname=u579024306_lenti","u579024306_rlenti","And20vas08");
 		   return $conectarLenti;
 	   }catch (Exception $e) {
 				print "¡Error!: " . $e->getMessage() . "<br/>";
@@ -37,9 +37,9 @@ class Conectar {
 	
 	protected function conexion_inabve1(){
 		try {
-		  		    //$conectarVet1 = $this->dbh = new PDO("mysql:local=localhost;dbname=veteranos","root","");
+		    $conectarVet1 = $this->dbh = new PDO("mysql:local=localhost;dbname=veteranos3","oscargz","oscar1411");
 		   
-		    $conectarVet1 = $this->dbh = new PDO("mysql:local=localhost;dbname=u579024306_envios","u579024306_env2021","Envios_2021");
+		    //$conectarVet1 = $this->dbh = new PDO("mysql:local=localhost;dbname=u579024306_envios","u579024306_env2021","Envios_2021");
 		   return $conectarVet1;
 	   }catch (Exception $e) {
 				print "¡Error!: " . $e->getMessage() . "<br/>";

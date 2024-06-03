@@ -51,8 +51,8 @@ $categoria_usuario = $_SESSION["categoria"];
       </div>
       <br>
       <!-- <button class="btn btn-outline-primary btn-sm btn-flat" data-toggle="modal" data-target="#nueva_orden_lab" onClick='get_numero_orden();' id="order_new"><i class="fa fa-glasses" style="margin-top: 2px"> Crear Orden</i></button> --->
-     <button class="btn btn-outline-primary btn-sm btn-flat" data-toggle="modal" data-target="#nueva_orden_lab" ><i class="fa fa-glasses" style="margin-top: 2px"> Crear Orden</i></button>
-      
+     <!-- <button class="btn btn-outline-primary btn-sm btn-flat" data-toggle="modal" data-target="#nueva_orden_lab" ><i class="fa fa-glasses" style="margin-top: 2px"> Crear Orden</i></button> -->
+     <button type="button" class="btn btn-outline-primary btn-flat" style='border-radius:3px' data-toggle="modal" data-target="#nueva_orden_lab"><i class="fa fa-book"></i> Nueva Orden</button>
       <div class="card card-dark card-outline" style="margin: 2px;">
        <table width="100%" class="table-hover table-bordered" id="datatable_ordenes"  data-order='[[ 1, "desc" ]]'>    
          <thead class="style_th bg-dark" style="color: white">
