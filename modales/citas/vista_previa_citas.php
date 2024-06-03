@@ -81,7 +81,7 @@
 
     .uploaded-area {
         max-height: 232px;
-        overflow-y: scroll;
+        border-radius: 8px;
     }
 
     .uploaded-area.onprogress {
@@ -195,7 +195,7 @@
     }
 </style>
 <div class="modal" id="modal-import-csv">
-    <div class="modal-dialog" style="max-width:70%">
+    <div class="modal-dialog" style="max-width:98%">
         <div class="modal-content">
             <div class="modal-header bg-dark py-1" style="padding:10px">
                 <h5 class="modal-title w-100 position-absolute" style="font-size: 15px;">IMPORTAR CSV</h5>
@@ -210,7 +210,7 @@
                             <div class="content-upload-csv" id="drag-warper">
                                 <div class="drag-area" id="drag-area">
                                     <form class="form-upload" action="#" id="drag-form">
-                                        <input class="file-input" type="file" id="file-input" name="file" hidden multiple>
+                                        <input class="file-input" type="file" id="file-input" name="file-csv" hidden>
                                         <i class="fas fa-cloud-upload-alt" id="drag-cloud"></i>
                                         <p id="drag_text">Arrastra y suelta el archivo aquí o haz clic para subirlo.</p>
                                     </form>
@@ -224,14 +224,26 @@
                     </div>
                 </div>
                 <table width="100%" class="table-hover table-bordered" id="dt_modal_despachos" data-order='[[ 0, "desc" ]]' style="font-size: 12px">
-                    <thead style="text-align:center;font-size:12" class="style_th bg-primary">
-                        <th>Selec</th>
+                    <thead style="text-align:center;font-size:12;background:#343a40;color:#fff" class="style_th">
+                        <th>#</th>
+                        <th>Id ref.</th>
                         <th>Paciente</th>
-                        <th>DUI</th>
+                        <th>Dui</th>
+                        <th>Edad</th>
+                        <th>Telefono</th>
+                        <th>Genero</th>
+                        <th>Ocupacion</th>
+                        <th>Departamento</th>
+                        <th>Municipio</th>
+                        <th>Tipo pac.</th>
                         <th>Fecha</th>
+                        <th>hora</th>
+                        <th>Telefono</th>
+                        <th>Institución</th>
+                        <th>Sucursal</th>
                         <th>Sector</th>
                     </thead>
-                    <tbody style="text-align:center;font-size:14px" id="body-table-env"></tbody>
+                    <tbody style="text-align:center;font-size:12px" id="body-table-content"></tbody>
                 </table>
             </div>
         </div>

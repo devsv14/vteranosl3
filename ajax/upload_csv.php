@@ -2,71 +2,87 @@
 
 require_once("../config/conexion.php");
 //llamada al modelo
-require_once("../modelos/Entregas.php");
-$entregas = new Entregas();
+
+require_once "../modelos/Citados.php";
+
+$citados = new Citados();
 
 switch ($_GET["op"]) {
 
-  case 'get_entregas_ordenes':
-    $datos = $entregas->get_entregas_ordenes($_POST['permiso_listar']);
-    $data = array();
-    foreach ($datos as $row) {
-      $sub_array = array();
+    case 'get_data_citados':
+        if(isset($_FILES['file-csv'])){
+            $tipo       = $_FILES['file-csv']['type'];
+            $tamanio    = $_FILES['file-csv']['size'];
+            $archivotmp = $_FILES['file-csv']['tmp_name'];
+            if($tamanio > 0){
+                $lineas = file($archivotmp);
+                $i = 1;
+                $array_data_file = [];
+                foreach ($lineas as $linea) {
+                    $array = [];
+                    $datos = explode(";", $linea);
 
-      $sub_array[] = $row["id_orden"];
-      $sub_array[] = date('d-m-Y',strtotime($row["fechaExp"]));
-      $sub_array[] = date('d-m-Y',strtotime($row["fecha"]));
-      $sub_array[] = $row["dui"];
-      $sub_array[] = strtoupper($row["paciente"]);
-      $sub_array[] = $row["sucursal"];
-      $sub_array[] = $row["institucion"];
-      $cantidadLlamadas = $entregas->getCantidadLlamadasOrden($row['id_accion']);
-      $sub_array[] = count($cantidadLlamadas) > 0 ? '<span class="badge badge-success" style="font-size: 11px;cursor:pointer" data-toggle="tooltip" data-placement="bottom" title="fecha: '.date('d-m-Y',strtotime($cantidadLlamadas[0]['fecha'])).'">Contactado</span>' : '<span class="badge badge-danger" style="font-size:11px">Recibido</span>';
-      $sub_array[] = count($cantidadLlamadas) > 0 ? date('d-m-Y',strtotime($cantidadLlamadas[0]['fecha'])): '-';
+                    $id = !empty($datos[0])  ? ($datos[0]) : '';
+                    $paciente = !empty($datos[1])  ? ($datos[1]) : '';
+                    $dui = !empty($datos[2])  ? ($datos[2]) : '';
+                    $edad = !empty($datos[3])  ? ($datos[3]) : '';
+                    $telefono = !empty($datos[4])  ? ($datos[4]) : '';
+                    $genero = !empty($datos[5])  ? ($datos[5]) : '';
+                    $ocupacion = !empty($datos[6])  ? ($datos[6]) : '';
+                    $departamento = !empty($datos[7])  ? ($datos[7]) : '';
+                    $municipio = !empty($datos[8])  ? ($datos[8]) : '';
+                    $tipo_paciente = !empty($datos[9])  ? ($datos[9]) : '';
+                    $fecha = !empty($datos[10])  ? ($datos[10]) : '';
+                    $hora = !empty($datos[11])  ? ($datos[11]) : '';
+                    $telefono2 = !empty($datos[12])  ? ($datos[12]) : '';
+                    $institucion = !empty($datos[13])  ? ($datos[13]) : '';
+                    $sucursal = !empty($datos[14])  ? ($datos[14]) : '';
+                    $sector = !empty($datos[15])  ? ($datos[15]) : '';
+                    
+                    $array["contador"] = $i;
+                    $array["id"] = $id;
+                    $array["paciente"] = trim($paciente);
+                    $array["dui"] = trim($dui);
+                    $array["edad"] = (int)trim($edad);
+                    $array["telefono"] = trim($telefono);
+                    $array["genero"] = trim($genero);
+                    $array["ocupacion"] = trim($ocupacion);
+                    $array["departamento"] = trim($departamento);
+                    $array["municipio"] = trim($municipio);
+                    $array["tipo_paciente"] = trim($tipo_paciente);
+                    $array["fecha"] = $fecha;
+                    $array["hora"] = $hora;
+                    $array["telefono2"] = trim($telefono2);
+                    $array["institucion"] = trim($institucion);
+                    $array["sucursal"] = trim($sucursal);
+                    $array["sector"] = trim($sector);
 
-      $sub_array[] = '<button type="button"  class="btn bg-light" onClick="show_modal_add_phone(\'' . $row["id_accion"] . '\',\'' . $row["telefono"] . '\',\'' . strtoupper($row["paciente"]). '\',\'' .$row["dui"]. '\',\'' .$row["sucursal"]. '\',\'' .$row["codigo"]. '\')"><i class="fas fa-phone"></i></button>';
-
-      $data[] = $sub_array;
-    }
-
-    $results = array(
-      "sEcho" => 1, //Información para el datatables
-      "iTotalRecords" => count($data), //enviamos el total registros al datatable
-      "iTotalDisplayRecords" => count($data), //enviamos el total registros a visualizar
-      "aaData" => $data
-    );
-    echo json_encode($results);
-  break;
-  case 'get_acc_entregas':
-    $data = $entregas->get_acc_entregas($_POST['id_acc']);
-    $data_final = [];
-    foreach($data as $row){
-      $array['id_acc_entrega'] = $row['id_acc_entrega'];
-      $array['estado_llamada'] = $row['estado_llamada'];
-      $array['accion'] = $row['accion'];
-      $array['fecha'] = date('d-m-Y',strtotime($row['fecha']));
-      $array['hora'] = $row['hora'];
-      $array['usuario'] = $row['usuario'];
-      $data_final[] = $array;
-    }
-    echo json_encode($data_final);
-  break;
-  case 'save_accion_entrega':
-    $result = $entregas->save_accion_entrega($_POST);
-    if($result){
-      $message = "save";
-    }else{
-      $message = "error";
-    }
-    echo json_encode($message);
-  break;
-  case 'get_cita_tel':
-    $data = $entregas->get_cita_tel($_POST['dui_paciente']);
-    if(count($data) > 0){
-      $result = $data[0];
-    }else{
-      $result = 'null';
-    }
-    echo json_encode($result);
-  break;
+                    $array_data_file[] = $array;
+                    $i ++;
+                }
+    
+                echo json_encode($array_data_file);
+            }else{
+                echo json_encode([
+                    'error' => 'El archivo está vacío.'
+                ]);
+            }
+        }else{
+            echo json_encode([
+                'status' => 'Error no se ha especificado ningun archivo'
+            ]);
+        }
+        break;
+    case 'procesar_csv':
+        $data = json_decode($_POST['data'],true);
+        foreach($data as $row){
+            if($citados->validarExiste($row['id'])){
+                $citados->save_citados_csv($row);
+            }
+        }
+        echo json_encode([
+            'status' => 'success',
+            'result' => []
+        ]);
+        break;
 }
