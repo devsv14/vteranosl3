@@ -43,7 +43,8 @@ public function login_users(){
 
         $marcados = $this->listar_permisos_por_usuario($results["id_usuario"]);
         //print_r($marcados);
-        $valores=array();
+        $valores = [];
+        $names_permisos = [];
         foreach($marcados as $row){
           $valores[]= $row["id_permiso"];
           $names_permisos[]=$row["nombre"];

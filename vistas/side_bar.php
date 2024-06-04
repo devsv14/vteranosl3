@@ -62,12 +62,14 @@ require_once('../modales/modal_det_rectificaciones.php');
         </a>
 
         <ul class="nav nav-treeview">
+        <?php if(in_array('importar_csv',$_SESSION['names_permisos']) || $cat_usuario=="Admin"){?>
           <li class="nav-item">
             <a href="./import_csv_citas.php" class="nav-link">
               <i class="far fa-circle nav-icon text-success"></i>
               <p>Importar csv</p>
             </a>
           </li>
+        <?php } ?>
         </ul>
     </ul>
   </nav>

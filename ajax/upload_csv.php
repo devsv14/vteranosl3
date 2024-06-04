@@ -32,7 +32,7 @@ switch ($_GET["op"]) {
 
                     $id = !empty($row[0])  ? ($row[0]) : '';
 
-                    $paciente = !empty($row[1])  ? mb_convert_encoding( htmlspecialchars( ($row[1]), ENT_QUOTES, 'UTF-8' ), 'HTML-ENTITIES', 'UTF-8' ) : '';
+                    $paciente = !empty($row[1])  ? $row[1] : '';
 
                     $dui = !empty($row[2])  ? ($row[2]) : '';
                     $edad = !empty($row[3])  ? ($row[3]) : '';
