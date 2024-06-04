@@ -172,8 +172,8 @@ async function drop_Upload(drop_files) {
                                             </div>
                                         </div>
                                         <div class="col-md-4 d-flex justify-content-end">
-                                            <i class="fas fa-check mr-3" style="cursor:pointer" onclick="procesarCSV(this)"></i>
-                                            <i class="fas fa-times" style="cursor:pointer" onclick="removeItemFile(this)"></i>
+                                            <i title="Importar datos del csv" class="fas fa-upload mr-4" style="cursor:pointer;font-size:22px" onclick="procesarCSV(this)"></i>
+                                            <i title="Remover csv" class="fas fa-times" style="cursor:pointer;font-size:22px" onclick="removeItemFile(this)"></i>
                                         </div>
                                     </li>`;
                     uploadedArea.classList.remove("onprogress");
@@ -184,6 +184,7 @@ async function drop_Upload(drop_files) {
                 'Content-Type': 'multipart/form-data'
             }
         });
+
         if(response.data.status === "success"){
             data_citados = response.data.result;
             showItemsCSV();
@@ -236,8 +237,8 @@ function uploadFile(name) {
                                   </div>
                                 </div>
                                 <div class="col-md-4 d-flex justify-content-end">
-                                    <i class="fas fa-check mr-3" style="cursor:pointer" onclick="procesarCSV(this)"></i>
-                                    <i class="fas fa-times" style="cursor:pointer" onclick="removeItemFile(this)"></i>
+                                    <i title="Importar datos del csv" class="fas fa-upload mr-4" style="cursor:pointer;font-size:22px" onclick="procesarCSV(this)"></i>
+                                    <i title="Remover csv" class="fas fa-times" style="cursor:pointer;font-size:22px" onclick="removeItemFile(this)"></i>
                                 </div>
                               </li>`;
                 uploadedArea.classList.remove("onprogress");
@@ -267,14 +268,26 @@ function uploadFile(name) {
 }
 
 function showItemsCSV() {
-    let rows_content_table = document.getElementById('body-table-content');
+    let rows_content_table = document.getElementById('contador_citados');
     rows_content_table.innerHTML = '';
     if(data_citados.length === 0){
         return;
     }
-    let data = data_citados;
+    let contador = data_citados.length;
+    rows_content_table.innerHTML = `
+        <div class="col-lg-12 col-12">
 
-    data.forEach(element => {
+            <div class="small-box bg-info">
+                <div class="inner">
+                <h3>${contador}<sup style="font-size: 20px"></sup></h3>
+                <p>Cantidad de citados</p>
+                </div>
+            <div class="icon">
+            <i class="fas fa-users"></i>
+        </div>
+    `
+    let data = data_citados;
+    /* data.forEach(element => {
         let row = `
             <tr>
                 <td>${element.contador}</td>
@@ -297,7 +310,7 @@ function showItemsCSV() {
             </tr>
         `;
         rows_content_table.innerHTML += row;
-    });
+    }); */
 }
 
 
@@ -325,9 +338,14 @@ function procesarCSV(){
             if (result.isConfirmed) {
                 let citados_form = new FormData();
                 citados_form.append('data', JSON.stringify(data_citados));
+                //Loader
+                let loader = document.getElementById('loader_upload_file');
+                loader.classList.add('show');
+
                 axios.post('../ajax/upload_csv.php?op=procesar_csv', citados_form)
                 .then((result) => {
                     if(result.data.status === "success"){
+                        loader.classList.remove('show');
                         //vacias array files
                         files_name_upload = [];
                         data_citados = [];
@@ -335,12 +353,25 @@ function procesarCSV(){
                         uploadedArea.innerHTML = '';
                         showItemsCSV();
                         $("#dt_citados_csv").DataTable().ajax.reload(null,false);
+
                         Swal.fire({
-                            title: "Éxito",
-                            text: "Los datos han sido importados exitosamente.",
-                            icon: "success"
+                            title: "<strong>Datos importados exitosamente</strong>",
+                            icon: "success",
+                            html: `
+                                <div>
+                                    <span class="text-success"><i class="fas fa-check"></i> Cantidad ingresada: ${result.data.result.cont_insertados}</span></p>
+                                    <p><span class="text-danger"><i class="fas fa-exclamation-triangle"></i> Cantidad existente: ${result.data.result.cont_existe}</span>
+                                </div>
+                            `,
+                            showCloseButton: true,
+                            focusConfirm: false,
+                            confirmButtonText: '<i class="fas fa-check-circle"></i> Aceptar',
+                            customClass: {
+                                popup: 'animated fadeInDown'
+                            }
                         });
                     }else{
+                        loader.classList.remove('show');
                         Swal.fire({
                             title: "Error",
                             text: "Ha ocurrido un error al importar los datos.",

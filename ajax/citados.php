@@ -23,7 +23,7 @@ switch ($_GET["op"]){
             $sub_array[] = $c["tipo_paciente"];
             $sub_array[] = $c["sector"];
             $sub_array[] = $c["sucursal"];
-            $sub_array[] = "<i class='fas fa-user-check fa-2x' onClick='getCitados(".$c["id_cita"].")'></i>"; 
+            /* $sub_array[] = "<i class='fas fa-user-check fa-2x' onClick='getCitados(".$c["id_cita"].")'></i>"; */
             $data[] = $sub_array;
         }
 

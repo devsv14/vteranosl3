@@ -1,0 +1,194 @@
+.uploadzone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0.1px;
+    padding-bottom: 0.1em;
+
+}
+
+.content-upload-csv {
+    width: 498px;
+    background: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
+}
+
+.content-upload-csv .form-upload {
+    height: 110px;
+    display: flex;
+    cursor: pointer;
+    margin: 10px 0;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 5px;
+    border: 3px dashed #6990F2;
+}
+
+.form-upload :where(i, p) {
+    color: #6990F2;
+}
+
+.form-upload i {
+    font-size: 50px;
+}
+
+.form-upload p {
+    font-size: 16px;
+    padding: 8px;
+}
+
+.section-datails .row {
+    margin-bottom: 10px;
+    background: #E9F0FF;
+    list-style: none;
+    padding: 15px 20px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.progress-area .row .content {
+    width: 100%;
+    margin-left: 15px;
+}
+
+.progress-area .details {
+    display: flex;
+    align-items: center;
+    margin-bottom: 7px;
+    justify-content: space-between;
+}
+
+.progress-area .content .progress-bar {
+    height: 6px;
+    width: 100%;
+    margin-bottom: 4px;
+    background: #fff;
+    border-radius: 30px;
+}
+
+.content .progress-bar .progress {
+    height: 100%;
+    width: 0%;
+    background: #6990F2;
+    border-radius: inherit;
+}
+
+.uploaded-area {
+    max-height: 232px;
+    border-radius: 8px;
+}
+
+.uploaded-area.onprogress {
+    max-height: 150px;
+}
+
+.uploaded-area::-webkit-scrollbar {
+    width: 0px;
+}
+
+.uploaded-area .row .content {
+    display: flex;
+    align-items: center;
+}
+
+.uploaded-area .row .details {
+    display: flex;
+    margin-left: 15px;
+    flex-direction: column;
+}
+
+.uploaded-area .row .details .size {
+    color: #404040;
+    font-size: 11px;
+}
+
+.uploaded-area i.fa-check {
+    font-size: 16px;
+}
+
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    /* margin: auto; */
+    /* margin-left: -125px; */
+    background-color: #ff4d4d;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    /* left: 50%; */
+    bottom: 30px;
+    font-size: 17px;
+}
+
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+
+@keyframes slide {
+    0% {
+        transform: translateX(-25%);
+    }
+
+    100% {
+        transform: translateX(25%);
+    }
+}

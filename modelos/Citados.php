@@ -371,41 +371,34 @@ public function getDisponibilidadCitas($fecha){
         $hoy = date('Y-m-d');
         $hora = date('H:i:s');
 
-        $color = '-';
         $estado = '0';
-        $usuario_lente = '-';
-        $vet_titular = '-';
-        $dui_titular = '-';
         $licitacion = 'l3';
 
         try {
-            $sql = "INSERT INTO citas VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO citas VALUES (NULL,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $data['id']);
-            $sql->bindValue(2, $data['paciente']);
-            $sql->bindValue(3, $data['dui']);
-            $sql->bindValue(4, $data['fecha']);
-            $sql->bindValue(5, $data['sucursal']);
-            $sql->bindValue(6, $color);
+            $sql->bindValue(2, $data['n_expediente']);
+            $sql->bindValue(3, $data['paciente']);
+            $sql->bindValue(4, $data['dui']);
+            $sql->bindValue(5, $data['fecha']);
+            $sql->bindValue(6, $data['sucursal']);
             $sql->bindValue(7, $estado);
             $sql->bindValue(8, $data['telefono']);
             $sql->bindValue(9, $data['edad']);
             $sql->bindValue(10, $data['ocupacion']);
             $sql->bindValue(11, $data['genero']);
-            $sql->bindValue(12, $usuario_lente);
-            $sql->bindValue(13, $data['sector']);
-            $sql->bindValue(14, $data['departamento']);
-            $sql->bindValue(15, $data['municipio']);
-            $sql->bindValue(16, $data['hora']);
-            $sql->bindValue(17, $hoy);
-            $sql->bindValue(18, $hora);
-            $sql->bindValue(19, $_SESSION['id_user']);
-            $sql->bindValue(20, $vet_titular);
-            $sql->bindValue(21, $dui_titular);
-            $sql->bindValue(22, $data['telefono2']);
-            $sql->bindValue(23, $data['tipo_paciente']);
-            $sql->bindValue(24, $data['institucion']);
-            $sql->bindValue(25, $licitacion);
+            $sql->bindValue(12, $data['sector']);
+            $sql->bindValue(13, $data['departamento']);
+            $sql->bindValue(14, $data['municipio']);
+            $sql->bindValue(15, $data['hora']);
+            $sql->bindValue(16, $hoy);
+            $sql->bindValue(17, $hora);
+            $sql->bindValue(18, $_SESSION['id_user']);
+            $sql->bindValue(19, $data['telefono2']);
+            $sql->bindValue(20, $data['tipo_paciente']);
+            $sql->bindValue(21, $data['institucion']);
+            $sql->bindValue(22, $licitacion);
             $sql->execute();
         } catch (PDOException $e) {
             echo "Error al insertar datos: " . $e->getMessage();

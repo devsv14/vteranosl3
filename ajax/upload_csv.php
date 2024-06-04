@@ -14,30 +14,44 @@ switch ($_GET["op"]) {
             $tipo       = $_FILES['file-csv']['type'];
             $tamanio    = $_FILES['file-csv']['size'];
             $archivotmp = $_FILES['file-csv']['tmp_name'];
-            if($tamanio > 0){
-                $lineas = file($archivotmp);
-                $i = 1;
-                $array_data_file = [];
-                foreach ($lineas as $linea) {
-                    $array = [];
-                    $datos = explode(";", $linea);
 
-                    $id = !empty($datos[0])  ? ($datos[0]) : '';
-                    $paciente = !empty($datos[1])  ? ($datos[1]) : '';
-                    $dui = !empty($datos[2])  ? ($datos[2]) : '';
-                    $edad = !empty($datos[3])  ? ($datos[3]) : '';
-                    $telefono = !empty($datos[4])  ? ($datos[4]) : '';
-                    $genero = !empty($datos[5])  ? ($datos[5]) : '';
-                    $ocupacion = !empty($datos[6])  ? ($datos[6]) : '';
-                    $departamento = !empty($datos[7])  ? ($datos[7]) : '';
-                    $municipio = !empty($datos[8])  ? ($datos[8]) : '';
-                    $tipo_paciente = !empty($datos[9])  ? ($datos[9]) : '';
-                    $fecha = !empty($datos[10])  ? ($datos[10]) : '';
-                    $hora = !empty($datos[11])  ? ($datos[11]) : '';
-                    $telefono2 = !empty($datos[12])  ? ($datos[12]) : '';
-                    $institucion = !empty($datos[13])  ? ($datos[13]) : '';
-                    $sucursal = !empty($datos[14])  ? ($datos[14]) : '';
-                    $sector = !empty($datos[15])  ? ($datos[15]) : '';
+            if($tamanio > 0){
+                $array_data_file = [];
+                $rows = [];
+
+                $handle = fopen($archivotmp, "r");
+                while (($data = fgetcsv($handle, 0, ";",'"')) !== false) {
+                    if(count($data) > 0){
+                        $rows[] = $data;
+                    }
+                }
+                
+                $i = 1;
+                foreach ($rows as $row) {
+                    $array = [];
+
+                    $id = !empty($row[0])  ? ($row[0]) : '';
+
+                    $paciente = !empty($row[1])  ? mb_convert_encoding( htmlspecialchars( ($row[1]), ENT_QUOTES, 'UTF-8' ), 'HTML-ENTITIES', 'UTF-8' ) : '';
+
+                    $dui = !empty($row[2])  ? ($row[2]) : '';
+                    $edad = !empty($row[3])  ? ($row[3]) : '';
+                    $telefono = !empty($row[4])  ? ($row[4]) : '';
+                    $genero = !empty($row[5])  ? ($row[5]) : '';
+
+                    $ocupacion = !empty($row[6])  ? ($row[6]) : '';
+
+                    $departamento = !empty($row[7])  ? ($row[7]) : '';
+                    $municipio = !empty($row[8])  ? ($row[8]) : '';
+
+                    $tipo_paciente = !empty($row[9])  ? ($row[9]) : '';
+                    $fecha = !empty($row[10])  ? ($row[10]) : '';
+                    $hora = !empty($row[11])  ? ($row[11]) : '';
+                    $telefono2 = !empty($row[12])  ? ($row[12]) : '';
+                    $institucion = !empty($row[13])  ? ($row[13]) : '';
+                    $sucursal = !empty($row[14])  ? ($row[14]) : '';
+                    $sector = !empty($row[15])  ? ($row[15]) : '';
+                    $n_expediente = !empty($row[16])  ? ($row[16]) : '';
                     
                     $array["contador"] = $i;
                     $array["id"] = $id;
@@ -56,6 +70,7 @@ switch ($_GET["op"]) {
                     $array["institucion"] = trim($institucion);
                     $array["sucursal"] = trim($sucursal);
                     $array["sector"] = trim($sector);
+                    $array["n_expediente"] = trim($n_expediente);
 
                     $array_data_file[] = $array;
                     $i ++;
@@ -78,14 +93,23 @@ switch ($_GET["op"]) {
         break;
     case 'procesar_csv':
         $data = json_decode($_POST['data'],true);
+        $cont_insercion = 0;
+        $cont_existe = 0;
+
         foreach($data as $row){
             if($citados->validarExiste($row['id'])){
                 $citados->save_citados_csv($row);
+                $cont_insercion += 1;
+            }else{
+                $cont_existe += 1;
             }
         }
         echo json_encode([
             'status' => 'success',
-            'result' => []
+            'result' => [
+                'cont_insertados' => $cont_insercion,
+                'cont_existe' => $cont_existe
+            ]
         ]);
         break;
 }
