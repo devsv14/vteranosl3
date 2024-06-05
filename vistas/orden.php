@@ -56,7 +56,6 @@ $categoria_usuario = $_SESSION["categoria"];
       <div class="card card-dark card-outline" style="margin: 2px;">
        <table width="100%" class="table-hover table-bordered" id="datatable_ordenes"  data-order='[[ 1, "desc" ]]'>    
          <thead class="style_th bg-dark" style="color: white">
-           <th>Correlativo</th>
            <th>ID orden</th>
            <th>Fecha</th>
            <th>Paciente</th>
