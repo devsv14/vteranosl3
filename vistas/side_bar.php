@@ -69,6 +69,13 @@ require_once('../modales/modal_det_rectificaciones.php');
               <p>Importar csv</p>
             </a>
           </li>
+
+          <li class="nav-item">
+            <a href="./import_csv_citas.php" class="nav-link">
+              <i class="far fa-circle nav-icon text-success"></i>
+              <p>Citas</p>
+            </a>
+          </li>
         <?php } ?>
         </ul>
     </ul>
