@@ -358,7 +358,7 @@ require_once("../config/conexion.php");
       $sql->execute();
       return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
     }else{
-      $sql= 'select o.id_orden,o.codigo,o.fecha,o.estado,o.tipo_lente,o.telefono,o.id_aro,o.id_cita,o.institucion,o.id_usuario,o.sucursal,o.dui, COALESCE((SELECT CONCAT(paciente," - RN") as paciente from orden_lab as od WHERE od.dui=o.dui and od.estado="l1"),o.paciente) as paciente from orden_lab as o where o.sucursal=? or o.estado="l1" order by o.id_orden DESC;';
+      $sql= 'select o.id_orden,o.id_ref,o.codigo,o.fecha,o.estado,o.tipo_lente,o.telefono,o.id_aro,o.id_cita,o.institucion,o.id_usuario,o.sucursal,o.dui, COALESCE((SELECT CONCAT(paciente," - RN") as paciente from orden_lab as od WHERE od.dui=o.dui and od.estado="l1"),o.paciente) as paciente from orden_lab as o where o.sucursal=? or o.estado="l1" order by o.id_orden DESC;';
       $sql=$conectar->prepare($sql);
       $sql->bindValue(1, $sucursal);
       $sql->execute();
@@ -1567,6 +1567,18 @@ public function buscaOrdenLicitacion1($dui){
     }
     return $data_lente;
   }
+
+  public function listar_pacientes_ref($user_sucursal = '')
+    {
+        $conectar = parent::conexion();
+        parent::set_names();
+
+        $sql = "SELECT * FROM `orden_lab`";
+        $sql = $conectar->prepare($sql);
+        //$sql->bindParam(':sucursal', $user_sucursal);
+        $sql->execute();
+        return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
   
 }//Fin de la Clase
 

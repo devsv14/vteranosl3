@@ -750,4 +750,27 @@ switch ($_GET["op"]) {
     case 'marcar_rectificacion':
         $ordenes->marcarRectificacion();
         break;
+    case 'listar_pacientes_citados':
+
+      $ordenes_ref = $ordenes->listar_pacientes_ref();
+      $data = Array();
+      foreach($ordenes_ref as $c){
+          $sub_array = array();
+          $sub_array[] = $c["id_orden"];
+          $sub_array[] = $c["id_ref"];
+          $sub_array[] = $c["dui"]; 
+          $sub_array[] = $c["paciente"];
+          $sub_array[] = $c["institucion"];
+          $sub_array[] = "<i class='fas fa-plus' style='cursor:pointer;font-size:16px' data-id_ref='".$c["id_ref"]."' data-paciente='".$c["paciente"]."' data-sucursal='".$c["sucursal"]."' data-dui='".$c["dui"]."' onClick='selectPaciente(this)'></i>";
+          $data[] = $sub_array;
+      }
+
+      $results = array(
+          "sEcho"=>1, //Información para el datatables
+          "iTotalRecords"=>count($data), //enviamos el total registros al datatable
+          "iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+          "aaData"=>$data);
+        echo json_encode($results);
+
+      break;
   }

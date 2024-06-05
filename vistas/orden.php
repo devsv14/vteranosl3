@@ -19,6 +19,11 @@ $categoria_usuario = $_SESSION["categoria"];
  require_once('../modales/estadisticas.php');
  require_once('../modales/modal_citas.php');
 
+ require_once('../modales/expedientes/show_folder_exp.php');
+ require_once('../modales/expedientes/subir_image.php');
+ require_once('../modales/expedientes/listar_pacientes.php');
+ require_once('../modales/expedientes/show_items_folder.php');
+
  date_default_timezone_set('America/El_Salvador');
  $hoy = date("Y-m-d");
 
@@ -52,6 +57,8 @@ $categoria_usuario = $_SESSION["categoria"];
       <br>
       <!-- <button class="btn btn-outline-primary btn-sm btn-flat" data-toggle="modal" data-target="#nueva_orden_lab" onClick='get_numero_orden();' id="order_new"><i class="fa fa-glasses" style="margin-top: 2px"> Crear Orden</i></button> --->
      <button class="btn btn-outline-primary btn-sm btn-flat" data-toggle="modal" data-target="#nueva_orden_lab" ><i class="fa fa-glasses" style="margin-top: 2px"> Crear Orden</i></button>
+
+     <button type="button" title="Subir referencia" class="btn btn-outline-info btn-sm" onClick="uploadImgRef()"><i class="fas fa-image"></i> Subir ordenes</button>
       
       <div class="card card-dark card-outline" style="margin: 2px;">
        <table width="100%" class="table-hover table-bordered" id="datatable_ordenes"  data-order='[[ 1, "desc" ]]'>    
@@ -99,6 +106,7 @@ require_once("links_js.php");
 <script type="text/javascript" src="../js/productos.js"></script>
 <script type="text/javascript" src="../js/cleave.js"></script>
 <script type="text/javascript" src="../js/citados.js"></script>
+<script type="text/javascript" src="../js/expedientes/upload_images.js"></script>
 <script>
   var dui = new Cleave('#dui_pac', {
   delimiter: '-',
