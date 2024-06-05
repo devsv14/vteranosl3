@@ -15,7 +15,7 @@
   }
 
 </style>
-<div class="modal fade" id="" style="" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal fade" id="nueva_orden_lab" style="" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable" style="max-width: 95%">
     <div class="modal-content">
       <div class="modal-header bg-dark" style="padding: 5px;">
@@ -32,39 +32,85 @@
       <div class="modal-body">
         <!--START MODAL BODY-->
 
-        <div class="row mb-2" id="radio_button_orden">         
-       
+        <div class="row mb-2" id="radio_button_orden">
+          <div class="custom-control custom-switch">
+            <input type="checkbox" onchange="AllowManualInput()" class="custom-control-input" name="customSwitch1" id="customSwitch1">
+            <label class="custom-control-label" for="customSwitch1">Ingreso manual</label>
+          </div>
+        </div>
+        <div class="row mb-2" id="btn_edit_especial">
+          <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
+            <input onchange="AllowEdicionSpecial()" type="checkbox" class="custom-control-input" id="ediccion_orden_citas">
+            <label class="custom-control-label" for="ediccion_orden_citas">Edición avanzada</label>
+          </div>
+        </div>
 
         <div class="shadow-sm" id="cita_content">
 
           <div id="show_form_manual">
             <div class="form-row">
+              <div class="form-group col-md-3">
+                <label class="form-check-label">Paciente*</label>
+                <input type="text" id="paciente" onKeyUp="document.getElementById(this.id).value=document.getElementById(this.id).value.toUpperCase()" class="form-control clear_orden_i oblig_form_manual" required>
+              </div>
 
-            <div class="col-sm-6 sel2-mb">
-                    <div class="content-input input-group">
-                    <input type="text" class="custom-input clear-input material form-control" id='paciente' name='paciente-nombres'>
-                        <label class="input-label" for="">Buscar Paciente*</label>
-                        <button class="btn-add-input btn-primary" type="button" id="btn-consultas"> <i class="fas fa-search" style="color:white">
-                    </i></button>
-                    </div>
-            </div>
+              <div class="form-group col-md-3">
+                <label class="form-check-label">DUI*</label>
+                <input type="text" onkeyup="comprobarExistenciaDUI(this.id)" id="dui_pac" class="form-control clear_orden_i oblig_form_manual" required>
+                <span id="mensaje_existe_dui" style="font-size: 14px; color:red;"></span>
+              </div>
 
-            <div class="col-sm-3 sel2-mb">
-                    <div class="content-input input-group">
-                    <input type="text" class="custom-input clear-input material form-control" id='dui_pac' name='paciente-nombres'>
-                        <label class="input-label" for="">DUI</label>
-                    
-                    </div>
-            </div>
-            
-            <div class="col-sm-3 sel2-mb">
-                    <div class="content-input input-group">
-                    <input type="text" class="custom-input clear-input material form-control" id='dui_pac' name='paciente-nombres'>
-                        <label class="input-label" for="">Telefono</label>
-                    
-                    </div>
-            </div>
+              <div class="form-group col-md-2">
+                <label class="form-check-label">Edad*</label>
+                <input type="number" step="1" max="110" min="1" id="edad_pac" class="form-control clear_orden_i oblig_form_manual" required>
+              </div>
 
+              <div class="form-group col-md-2">
+                <label class="form-check-label">Telefono*</label>
+                <input type="text" id="telef_pac" class="form-control clear_orden_i oblig_form_manual" required>
+              </div>
+
+              <div class="form-group col-md-2">
+                <label class="form-check-label">Genero*</label>
+                <select name="" id="genero_pac" class="form-control clear_orden_i oblig_form_manual" required>
+                  <option value="" selected disabled>Selecionar</option>
+                  <option value="Masculino">Masculino</option>
+                  <option value="Femenino">Femenino</option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-3">
+                <label class="form-check-label">Ocupación*</label>
+                <input type="text" id="ocupacion_pac" class="form-control clear_orden_i oblig_form_manual" required>
+              </div>
+
+              <div class="form-group col-md-2 select2-purple">
+                <label class="form-check-label">Departamento : <span id="depto_pac" class="clear_orden_i" style="color: red;"></span></label>
+                <select class="select2 next-input form-control clear_orden_i select2-hidden-accessible" name="" id="departamento_pac" class="select2 form-control oblig_form_manual" required="" tabindex="-1" multiple="" data-dropdown-css-class="select2-purple" aria-hidden="true">
+                  <option value='0' disabled selected>Seleccionar</option>
+                  <option value="San Salvador">San Salvador</option>
+                  <option value="La Libertad">La Libertad</option>
+                  <option value="Santa Ana">Santa Ana</option>
+                  <option value="San Miguel">San Miguel</option>
+                  <option value="Sonsonate">Sonsonate</option>
+                  <option value="Usulutan">Usulutan</option>
+                  <option value="Ahuachapan">Ahuachapan</option>
+                  <option value="La Union">La Unión</option>
+                  <option value="La Paz">La Paz</option>
+                  <option value="Chalatenango">Chalatenango</option>
+                  <option value="Cuscatlan">Cuscatlan</option>
+                  <option value="Morazan">Morazan</option>
+                  <option value="San Vicente">San Vicente</option>
+                  <option value="Cabanas">Cabanas</option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-3 select2-primary">
+                <label class="form-check-label">Municipio: <span id="muni_pac_label" class="clear_orden_i" style="color: red;"></span></label>
+                <select name="" id="munic_pac" class="select2 next-input form-control clear_orden_i oblig_form_manual" required="" tabindex="-1" multiple="" data-dropdown-css-class="select2-purple" aria-hidden="true" required>
+
+                </select>
+              </div>
 
               <div class="form-group col-md-2" id="select_manual">
                 <label class="form-check-label">Sucursal*</label>
