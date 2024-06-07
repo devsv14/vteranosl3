@@ -35,6 +35,7 @@
 
             <!-- Modal body -->
             <div class="modal-body">
+
                 <div class="row form-row">
                     <div class="col-sm-6 mb-2">
                         <div class="content-input input-group">
@@ -62,7 +63,7 @@
 
 
                     <hr>
-                    <div class="col-sm-12 rx-final divs-sections shadow p-2 mb-3 bg-white rounded">
+                    <div class="col-sm-12 rx-final divs-sections shadow-sm p-2 mb-3 bg-white rounded">
                         <table width="100%" style='max-width:100%;margin:5px'>
                             <h5 style="color:blue;text-align:center"><strong>RX Final</strong></h5>
 
@@ -100,17 +101,17 @@
 
                 </div>
 
-                <div class="row shadow p-2 mb-3 bg-white rounded">
+                <div class="row shadow-none p-2 bg-white rounded">
 
                     <div class="col-md-6 col-lg-3">
-                        <div class="card card-secondary" style="height: 105px;">
-                            <div class="card-header bg-secondary" style='padding:3px; text-align:center'>
-                                <h3 class="card-title">Usuario lente</h3>
+                        <div class="card card-light" style="height: 100px;">
+                            <div class="card-header bg-light" style="padding: 3px; text-align: center;">
+                                <h3 class="card-title" style="margin: 0 auto; width: 100%;">Usuario lente</h3>
                             </div>
-                            <div class="card-body p-3">
+                            <div class="card-body  p-1 d-flex justify-content-center">
                                 <div class="icheck-success d-inline">
                                     <input type="radio" name="r3" checked="" id="radioSuccess1">
-                                    <label for="radioSuccess1">Si</label>
+                                    <label for="radioSuccess1">Si&nbsp;&nbsp;</label>
                                 </div>
 
                                 <div class="icheck-success d-inline">
@@ -122,8 +123,8 @@
                     </div>
                     <div class="col-md-6 col-lg-3">
                         <div class="card card-secondary">
-                            <div class="card-header bg-secondary" style='padding:3px; text-align:center !important'>
-                                <h3 class="card-title text-center" style="text-align:center">Distancia pupilar</h3>
+                            <div class="card-header bg-light" style='padding:3px; text-align:center !important'>
+                                <h3 class="card-title text-center" style="margin: 0 auto; width: 100%;">Distancia pupilar</h3>
                             </div>
                             <div class="card-body p-3 form-row row">
                                 <div class="content-input input-group col-sm-6">
@@ -143,8 +144,8 @@
 
                     <div class="col-md-6 col-lg-3">
                         <div class="card card-secondary">
-                            <div class="card-header bg-secondary" style='padding:3px'>
-                                <h3 class="card-title" style="text-align:center">Altura de lente</h3>
+                            <div class="card-header bg-light" style='padding:3px;text-align:center'>
+                                <h3 class="card-title" style="margin: 0 auto; width: 100%;">Altura de lente</h3>
                             </div>
                             <div class="card-body p-3 form-row row">
                                 <div class="content-input input-group col-sm-6">
@@ -162,8 +163,8 @@
 
                     <div class="col-md-6 col-lg-3">
                         <div class="card card-secondary">
-                            <div class="card-header bg-secondary" style='padding:3px'>
-                                <h3 class="card-title" style="text-align:center">Agudeza visual</h3>
+                            <div class="card-header bg-light" style="padding: 3px;text-align:center">
+                                <h3 class="card-title" style="margin: 0 auto; width: 100%;">Agudeza visual</h3>
                             </div>
                             <div class="card-body p-3 form-row row">
                                 <div class="content-input input-group col-sm-6">
@@ -194,7 +195,7 @@
                         <div class="content-input input-group">
                             <input type="text" class="custom-input clear-input material form-control" id='paciente' name='paciente-nombres'>
                             <label class="input-label" for="">Lentes y tratamientos*</label>
-                            <button class="btn-add-input btn-primary" type="button" id="btn-consultas">
+                            <button class="btn-add-input btn-primary" type="button" id="btn-sel-trats">
                                 <i class="fas fa-search" style="color:white"></i>
                             </button>
                         </div>
@@ -203,20 +204,19 @@
                     <div class="col-sm-6 mb-2">
                         <label for="">Modelo aro</label>
                         <select class="form-control">
-                            <option value="0" selected>Modelo Aro</option>
-                            <option value="">11222222</option>
-                            <option value="">252325585</option>
-                            <option value="">2453585888</option>
+                            <option value="0" selected>Seleccionar...</option>
+                            <option value="">Cerrado</option>
+                            <option value="">Aereo</option>
+                            <option value="">Semi-aereo</option>
                         </select>
                     </div>
 
                     <div class="col-sm-6 mb-2">
                         <label for="">Material aro</label>
                         <select class="form-control">
-                            <option value="0" selected>Modelo Aro</option>
-                            <option value="">11222222</option>
-                            <option value="">252325585</option>
-                            <option value="">2453585888</option>
+                            <option value="0" selected>Seleccionar...</option>
+                            <option value="">Acetato</option>
+                            <option value="">Metalico</option>
                         </select>
                     </div>
 
@@ -227,7 +227,7 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-dark btn-block"><i class="fas fa-save"></i> Guardar expediente</button>
             </div>
 
         </div>
