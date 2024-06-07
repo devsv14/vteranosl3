@@ -7,8 +7,7 @@ class Home extends Controller{
         $this->views->getView($this, "index");
     }
 
-    public function listar(){
-        
+    public function listar(){        
         $data = $this->model->getEventos($_GET["filtro"],$_GET["categoria"]);
         echo json_encode($data);
         die();

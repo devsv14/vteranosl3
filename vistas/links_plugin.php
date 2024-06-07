@@ -28,8 +28,10 @@
   <!-- Select2 -->
   <link rel="stylesheet" href="../plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-
   <link rel="stylesheet" href="../estilos/loader.css">
   <link rel="stylesheet" href="../estilos/upload_file.css">
+
+  <link rel="stylesheet" href="../css/inputs.css">
+
   
 
